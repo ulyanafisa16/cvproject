@@ -1,0 +1,11 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Apakah yakin ingin menghapus {{ profile.name }}?</h3>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Hapus</button>
+        <a href="{% url 'profile_list' %}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

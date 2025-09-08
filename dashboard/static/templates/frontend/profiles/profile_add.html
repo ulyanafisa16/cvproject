@@ -1,0 +1,43 @@
+{% extends "frontend/base.html" %}
+
+{% block title %}Tambah Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Tambah Profile Baru</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row g-3">
+                    {% for field in form %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            {{ field.label_tag }} 
+                            {{ field|add_class:"form-control" }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Simpan
+                    </button>
+                    <a href="{% url 'profile_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Batal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

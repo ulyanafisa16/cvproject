@@ -22,7 +22,7 @@ class PortfolioImageSerializer(serializers.ModelSerializer):
 class PortfolioListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portfolio
-        fields = ['id', 'title', 'category', 'image']
+        fields = ['id', 'title', 'category', 'image', 'client', 'project_date']
 
 class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,8 +48,11 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         return value.strip()
 
 class PortfolioDetailSerializer(serializers.ModelSerializer):
-    gallery = PortfolioImageSerializer(many=True)
+    gallery = PortfolioImageSerializer(many=True, required=False)
 
+    project_url = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+
+    description = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     class Meta:
         model = Portfolio
         fields = ['id', 'title', 'category', 'image', 'client', 'project_date', 'project_url', 'description', 'gallery']

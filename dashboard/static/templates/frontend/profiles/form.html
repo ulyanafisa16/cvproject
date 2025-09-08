@@ -1,0 +1,143 @@
+{% extends "frontend/base.html" %}
+
+{% block title %}Form Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Form Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Name -->
+        <div class="card mb-3">
+            <div class="card-header">Name</div>
+            <div class="card-body">
+                {{ form.name }}
+                {% for error in form.name.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Profession -->
+        <div class="card mb-3">
+            <div class="card-header">Profession</div>
+            <div class="card-body">
+                {{ form.profession }}
+                {% for error in form.profession.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Intro -->
+        <div class="card mb-3">
+            <div class="card-header">Introduction</div>
+            <div class="card-body">
+                {{ form.intro }}
+                {% for error in form.intro.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Photo -->
+        <div class="card mb-3">
+            <div class="card-header">Photo</div>
+            <div class="card-body">
+                {{ form.photo }}
+                {% for error in form.photo.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="card mb-3">
+            <div class="card-header">Email</div>
+            <div class="card-body">
+                {{ form.email }}
+                {% for error in form.email.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="card mb-3">
+            <div class="card-header">Phone</div>
+            <div class="card-body">
+                {{ form.phone }}
+                {% for error in form.phone.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="card mb-3">
+            <div class="card-header">Address</div>
+            <div class="card-body">
+                {{ form.address }}
+                {% for error in form.address.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Birth Date -->
+        <div class="card mb-3">
+            <div class="card-header">Birth Date</div>
+            <div class="card-body">
+                {{ form.birth_date }}
+                {% for error in form.birth_date.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Degree -->
+        <div class="card mb-3">
+            <div class="card-header">Degree</div>
+            <div class="card-body">
+                {{ form.degree }}
+                {% for error in form.degree.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Freelance -->
+        <div class="card mb-3">
+            <div class="card-header">Freelance</div>
+            <div class="card-body">
+                {{ form.freelance }}
+                {% for error in form.freelance.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Tombol -->
+        <div class="d-flex gap-2 mt-3">
+            <a href="{% url 'profile_list' %}" class="btn btn-secondary">Kembali</a>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+    </form>
+</div>
+
+<style>
+.card input, .card textarea, .card select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.card input:focus, .card textarea:focus, .card select:focus {
+    border-color: #495057;
+    outline: none;
+    box-shadow: none;
+}
+</style>
+{% endblock %}

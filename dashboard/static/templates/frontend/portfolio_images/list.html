@@ -1,0 +1,34 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Gallery Portfolio</h2>
+    <a href="{% url 'portfolio_image_create' %}" class="btn btn-success mb-3">+ Tambah Gambar</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Portfolio</th>
+                <th>Gambar</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for img in portfolio_images %}
+            <tr>
+                <td>{{ img.portfolio.title }}</td> <!-- sesuaikan field judul portfolio -->
+                <td>
+                    <img src="{{ img.image.url }}" alt="Portfolio Image" width="100">
+                </td>
+                <td>
+                    <a href="{% url 'portfolio_image_edit' img.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'portfolio_image_delete' img.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">Tidak ada gambar</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

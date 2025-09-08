@@ -1,0 +1,25 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="mb-0">Hapus Skill</h3>
+        </div>
+        <div class="card-body">
+            <p>Yakin mau hapus skill: <strong>{{ skill.name }}</strong> ?</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Ya, Hapus
+                    </button>
+                    <a href="{% url 'skill_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Batal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

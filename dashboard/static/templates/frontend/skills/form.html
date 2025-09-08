@@ -1,0 +1,14 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% if form.instance.pk %}Edit Skill{% else %}Tambah Skill{% endif %}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-2">Simpan</button>
+        <a href="{% url 'skill_list' %}" class="btn btn-secondary mt-2">Batal</a>
+    </form>
+</div>
+{% endblock %}

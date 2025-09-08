@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'cvapi',
     'corsheaders',
+    'dashboard',
+    'cvapi',
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -59,7 +62,8 @@ ROOT_URLCONF = 'cvproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'dashboard' / 'static' / 'templates'
+                ], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,12 +133,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+
 
 import os
-
+STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",  # Jika frontend di port 8000

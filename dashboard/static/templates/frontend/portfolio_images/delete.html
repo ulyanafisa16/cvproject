@@ -1,0 +1,12 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Hapus Education</h2>
+    <p>Apakah Anda yakin ingin menghapus education dari profile <strong>{{ education.profile.name }}</strong> dengan degree <strong>{{ education.degree }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Hapus</button>
+        <a href="{% url 'portfolio_image_list' %}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

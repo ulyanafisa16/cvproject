@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" data-assets-path="/" data-base-url="/" data-framework="django" data-template="vertical-menu-free">
+<head>
+    <title>Portfolio Admin Dashboard | Materio - Django</title>
+    <meta name="description" content="Materio Free Django Admin Template">
+    <meta name="keywords" content="django, admin, materio">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .layout-demo-wrapper {
+            display: none;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-header h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .sidebar.collapsed .sidebar-header h4 {
+            display: none;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            margin: 0.5rem 1rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link i {
+            min-width: 24px;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content.expanded {
+            margin-left: 70px;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .page-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-section h3 {
+            color: #495057;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section h3 i {
+            margin-right: 0.5rem;
+            color: #667eea;
+        }
+        
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 193, 7, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.4);
+        }
+        
+        .table-section h3 {
+            color: #495057;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .table-section h3 i {
+            margin-right: 0.5rem;
+            color: #667eea;
+        }
+        
+        .table {
+            margin-bottom: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            border-color: #e9ecef;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            border-radius: 20px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .stat-card h3 {
+            margin: 0;
+            color: #495057;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .stat-card p {
+            margin: 0.5rem 0 0 0;
+            color: #6c757d;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .progress {
+            height: 10px;
+            border-radius: 10px;
+            background: #e9ecef;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .portfolio-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .sidebar-header h4,
+            .nav-link span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h4><i class="fas fa-user-circle me-2"></i>Portfolio Admin</h4>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="skills">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Skills</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="portfolio">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Portfolio</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="messages">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Sidebar Toggle -->
+    <button class="sidebar-toggle d-md-none" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        
+        <!-- Dashboard Section -->
+        <div class="content-section active" id="dashboard">
+            <div class="page-header">
+                <h1><i class="fas fa-tachometer-alt me-3"></i>Dashboard</h1>
+                <p>Welcome to your portfolio management dashboard</p>
+            </div>
+
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <i class="fas fa-user"></i>
+                    <h3 id="profile-count">1</h3>
+                    <p>Profile</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3 id="skills-count">0</h3>
+                    <p>Skills</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h3 id="portfolios-count">0</h3>
+                    <p>Portfolio Items</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3 id="messages-count">0</h3>
+                    <p>Messages</p>
+                </div>
+                <div class="stat-card logout-card">
+              <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="logout-link">
+             <i class="fas fa-sign-out-alt"></i>
+            <p>Logout</p>
+        </button>
+    </form>
+</div>
+
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+
+<div class="content-section" id="profile">
+    <div class="page-header">
+        <h1><i class="fas fa-user me-3"></i>Profile Management</h1>
+        <p>Manage your personal profile information</p>
+    </div>
+
+    <div class="section-card">
+        <div class="form-section">
+            <h3><i class="fas fa-edit"></i>Profile Information</h3>
+            <form id="profile-form" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="profile-name" placeholder="Full Name" required>
+                            <label for="profile-name">Full Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="profile-profession" placeholder="Profession" required>
+                            <label for="profile-profession">Profession</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="profile-email" placeholder="Email" required>
+                            <label for="profile-email">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="profile-phone" placeholder="Phone" required>
+                            <label for="profile-phone">Phone</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="profile-address" placeholder="Address" required>
+                            <label for="profile-address">Address</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="profile-birth-date" required>
+                            <label for="profile-birth-date">Birth Date</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="profile-degree" placeholder="Degree" required>
+                            <label for="profile-degree">Degree</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="profile-freelance" required>
+                                <option value="Available">Available</option>
+                                <option value="Not Available">Not Available</option>
+                                <option value="Busy">Busy</option>
+                            </select>
+                            <label for="profile-freelance">Freelance Status</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Upload -->
+                <div class="mb-3">
+                    <label for="profile-photo" class="form-label">Profile Photo</label>
+                    <input type="file" class="form-control" id="profile-photo" accept="image/*">
+                </div>
+
+                <div class="form-floating">
+                    <textarea class="form-control" id="profile-intro" placeholder="Introduction" style="height: 120px" required></textarea>
+                    <label for="profile-intro">Introduction</label>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" id="profile-submit-btn">
+                    <i class="fas fa-plus"></i> Add Profile
+                    </button>
+                    <button type="button" class="btn btn-secondary ms-2" id="profile-cancel-btn" style="display:none;">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <div class="table-section mt-4">
+            <h3><i class="fas fa-list"></i>Profiles</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Photo</th>
+                            <th>Profession</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Birth Date</th>
+                            <th>Degree</th>
+                            <th>Freelance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profile-table-body">
+                        <tr class="empty-state">
+                            <td colspan="7">
+                                <i class="fas fa-user"></i>
+                                <h5>No profiles yet</h5>
+                                <p>Add your first profile using the form above</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Skills Section -->
+        <div class="content-section" id="skills">
+            <div class="page-header">
+                <h1><i class="fas fa-chart-bar me-3"></i>Skills Management</h1>
+                <p>Manage your professional skills and expertise levels</p>
+            </div>
+
+            <div class="section-card">
+                <div class="form-section">
+                    <h3><i class="fas fa-plus-circle"></i>Add New Skill</h3>
+                    <form id="skill-form">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="skill-name" placeholder="Skill Name" required>
+                                    <label for="skill-name">Skill Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="skill-percentage" placeholder="Percentage" min="0" max="100" required>
+                                    <label for="skill-percentage">Percentage (%)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary" id="skill-submit-btn">
+                                <i class="fas fa-plus me-2"></i>Add Skill
+                            </button>
+                            <button type="button" class="btn btn-secondary ms-2" id="skill-cancel-btn" style="display: none;">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-section">
+                    <h3><i class="fas fa-list"></i>Skills List</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Skill Name</th>
+                                    <th>Progress</th>
+                                    <th>Percentage</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="skills-table-body">
+                                <tr class="empty-state">
+                                    <td colspan="5">
+                                        <i class="fas fa-chart-bar"></i>
+                                        <h5>No skills added yet</h5>
+                                        <p>Add your first skill using the form above</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Section -->
+        <div class="content-section" id="portfolio">
+            <div class="page-header">
+                <h1><i class="fas fa-briefcase me-3"></i>Portfolio Management</h1>
+                <p>Manage your portfolio projects and showcase your work</p>
+            </div>
+
+            <div class="section-card">
+                <div class="form-section">
+                    <h3><i class="fas fa-plus-circle"></i>Add New Portfolio Item</h3>
+                    <form id="portfolio-form">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="portfolio-title" placeholder="Project Title" required>
+                                    <label for="portfolio-title">Project Title</label>
+                                </div>
+                            </div>
+                            <div class="form-floating">
+                            <input type="file" class="form-control" id="portfolio-image" accept="image/*">
+                            <label for="portfolio-image">Project Image</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="portfolio-category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Web Development">Web Development</option>
+                                        <option value="Mobile App">Mobile App</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <option value="Branding">Branding</option>
+                                        <option value="Photography">Photography</option>
+                                    </select>
+                                    <label for="portfolio-category">Category</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="portfolio-client" placeholder="Client Name">
+                                    <label for="portfolio-client">Client Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="portfolio-date">
+                                    <label for="portfolio-date">Project Date</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating">
+                            <input type="url" class="form-control" id="portfolio-url" placeholder="Project URL">
+                            <label for="portfolio-url">Project URL</label>
+                        </div>
+                        <div class="form-floating">
+                            <textarea class="form-control" id="portfolio-description" placeholder="Description" style="height: 120px"></textarea>
+                            <label for="portfolio-description">Project Description</label>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary" id="portfolio-submit-btn">
+                                <i class="fas fa-plus me-2"></i>Add Portfolio Item
+                            </button>
+                            <button type="button" class="btn btn-secondary ms-2" id="portfolio-cancel-btn" style="display: none;">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-section">
+                    <h3><i class="fas fa-list"></i>Portfolio Items</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Gambar</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portfolio-table-body">
+                                <tr class="empty-state">
+                                    <td colspan="6">
+                                        <i class="fas fa-briefcase"></i>
+                                        <h5>No portfolio items yet</h5>
+                                        <p>Add your first portfolio item using the form above</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Section -->
+        <div class="content-section" id="messages">
+            <div class="page-header">
+                <h1><i class="fas fa-envelope me-3"></i>Contact Messages</h1>
+                <p>View and manage messages from your website visitors</p>
+            </div>
+
+            <div class="section-card">
+                <div class="table-section">
+                    <h3><i class="fas fa-list"></i>Messages</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messages-table-body">
+                                <tr class="empty-state">
+                                    <td colspan="6">
+                                        <i class="fas fa-envelope-open"></i>
+                                        <h5>No messages received</h5>
+                                        <p>Messages from your contact form will appear here</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Portfolio Management System
+        class PortfolioManager {
+            constructor() {
+                this.apiBase = "/api"; // Django API endpoint base
+                this.skills = [];
+                this.portfolios = [];
+                this.messages = [];
+                this.profiles = [];
+                this.editingSkill = null;
+                this.editingPortfolio = null;
+                this.editingProfile = null;
+                this.editingId = null;
+                this.init();
+            }
+           
+
+
+            async init() {
+                this.setupEventListeners();
+                await this.loadData();
+            }
+
+            setupEventListeners() {
+                // Profile form
+                document.getElementById('profile-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleProfileSubmit();
+                });
+
+                const profileCancelBtn = document.getElementById('profile-cancel-btn');
+                if (profileCancelBtn) {
+                profileCancelBtn.addEventListener('click', () => {
+                this.cancelProfileEdit();
+                });
+                }
+
+                // Skills form
+                document.getElementById('skill-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleSkillSubmit();
+                });
+
+                // Portfolio form
+                document.getElementById("portfolio-form")
+                .addEventListener("submit", (event) => this.handlePortfolioSubmit(event));
+
+                
+
+                // Cancel buttons
+                document.getElementById('skill-cancel-btn').addEventListener('click', () => {
+                    this.cancelSkillEdit();
+                });
+
+                document.getElementById('portfolio-cancel-btn').addEventListener('click', () => {
+                    this.cancelPortfolioEdit();
+                });
+
+                document.getElementById("portfolio-cancel-btn").addEventListener("click", () => {
+                this.resetForm();
+                });
+            }
+
+            async loadData() {
+                await Promise.all([
+                    this.loadProfiles(),
+                    this.loadSkills(),
+                    this.loadPortfolios(),
+                    this.loadMessages()
+                ]);
+                this.updateCounts()
+            }
+            updateCounts() {
+        document.getElementById("skills-count").innerText = this.skills.length;
+        document.getElementById("portfolios-count").innerText = this.portfolios.length;
+        document.getElementById("messages-count").innerText = this.messages.length;
+        }
+    // ================== SKILLS ==================
+    async loadSkills() {
+        let res = await fetch(`${this.apiBase}/skills/`);
+        if (res.ok) {
+            this.skills = await res.json();
+            this.renderSkills();
+        }
+    }
+
+    async addSkill(skillData) {
+        let res = await fetch(`${this.apiBase}/skills/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json",
+            "X-CSRFToken": this.getCSRFToken() },
+            body: JSON.stringify(skillData)
+        });
+        if (res.ok) {
+            let newSkill = await res.json();
+            this.skills.push(newSkill);
+            this.renderSkills();
+            this.showToast("Skill added successfully!", "success");
+        }
+    }
+
+    async updateSkill(id, skillData) {
+        let res = await fetch(`${this.apiBase}/skills/${id}/`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json",
+            "X-CSRFToken": this.getCSRFToken() },
+            body: JSON.stringify(skillData)
+        });
+        if (res.ok) {
+            let updated = await res.json();
+            let index = this.skills.findIndex(s => s.id === id);
+            if (index !== -1) this.skills[index] = updated;
+            this.renderSkills();
+            this.showToast("Skill updated successfully!", "success");
+        }
+    }
+
+    async deleteSkill(id) {
+        if (!confirm("Delete this skill?")) return;
+        let res = await fetch(`${this.apiBase}/skills/${id}/`,
+        { method: "DELETE" ,
+           headers: { "X-CSRFToken": this.getCSRFToken()} 
+        });
+        if (res.ok) {
+            this.skills = this.skills.filter(s => s.id !== id);
+            this.renderSkills();
+            this.showToast("Skill deleted!", "danger");
+        }
+    }
+    async handleSkillSubmit() {
+    const name = document.getElementById("skill-name").value;
+    const percentage = document.getElementById("skill-percentage").value;
+
+    if (this.editingSkill) {
+        await this.updateSkill(this.editingSkill.id, { name, percentage });
+        this.editingSkill = null;
+    } else {
+        await this.addSkill({ name, percentage });
+    }
+
+    document.getElementById("skill-form").reset();
+}
+
+    
+            // ================== PROFILE MANAGEMENT ==================
+async loadProfiles() {
+        try {
+            const response = await fetch(`${this.apiBase}/profile/`);
+            if (response.ok) {
+                this.profiles = await response.json();
+                this.renderProfiles();
+            } else {
+                console.log('Error loading profiles');
+                this.profiles = [];
+                this.renderProfiles();
+            }
+        } catch (error) {
+            console.error('Error loading profiles:', error);
+            this.profiles = [];
+            this.renderProfiles();
+        }
+    }
+
+renderProfiles() {
+    let container = document.getElementById("profile-table-body");
+    container.innerHTML = "";
+
+    if (!this.profiles || this.profiles.length === 0) {
+        container.innerHTML = `
+            <tr class="empty-state">
+                <td colspan="8">
+                    <i class="fas fa-user"></i>
+                    <h5>No profile data available</h5>
+                    <p>Add your first profile using the form above</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+ this.profiles.forEach(profile => {
+    container.innerHTML = `
+        <tr>
+            <td>${this.profile.id || '-'}</td>
+            <td>${this.profile.name || '-'}</td>
+            <td>
+                ${this.profile.photo ? `<img src="${this.profile.photo}" width="80">` : "No Image"}
+            </td>
+            <td>${this.profile.profession || '-'}</td>
+            <td>${this.profile.email || '-'}</td>
+            <td>${this.profile.phone || '-'}</td>
+            <td>${this.profile.address || '-'}</td>
+            <td>${this.profile.birth_date || '-'}</td>
+            <td>${this.profile.degree || '-'}</td>
+            <td>${this.profile.freelance || '-'}</td>
+            <td>
+                <button class="btn btn-sm btn-warning" onclick="manager.editProfile()">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="manager.deleteProfile(${profile.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `;
+    }); 
+}
+
+editProfile(id) {
+    const profile = this.profiles.find(p => p.id === id);
+    if (!profile) return;
+
+    this.editingProfile= profile;
+
+    // isi form
+    document.getElementById("profile-name").value = profile.name || "";
+    document.getElementById("profile-profession").value = profile.profession || "";
+    // ... dst
+}
+
+async deleteProfile(id) {
+    if (!confirm("Are you sure you want to delete this profile?")) return;
+    try {
+        const response = await fetch(`${this.apiBase}/profiles/${id}/`, {
+            method: "DELETE",
+            headers: { "X-CSRFToken": this.getCSRFToken() }
+        });
+        if (response.ok) {
+            this.profiles = this.profiles.filter(p => p.id !== id);
+            this.renderProfiles();
+            this.showToast("Profile deleted successfully!", "success");
+        }
+    } catch (error) {
+        console.error(error);
+        this.showToast("Error deleting profile!", "danger");
+    }
+}
+
+async handleProfileSubmit() {
+    const formData = new FormData();
+    formData.append("name", document.getElementById("profile-name").value);
+    formData.append("profession", document.getElementById("profile-profession").value);
+    // ... dst
+    const photoInput = document.getElementById("profile-photo");
+    if (photoInput && photoInput.files.length > 0) {
+        formData.append("photo", photoInput.files[0]);
+    }
+
+    let url = `${this.apiBase}/profiles/`;
+    let method = "POST";
+
+    if (this.editingProfileId) {
+        url += `${this.editingProfileId}/`;
+        method = "PUT";
+    }
+
+    const response = await fetch(url, {
+        method,
+        headers: { "X-CSRFToken": this.getCSRFToken() },
+        body: formData
+    });
+
+    if (response.ok) {
+        const updatedProfile = await response.json();
+        if (this.editingProfileId) {
+            const index = this.profiles.findIndex(p => p.id === this.editingProfileId);
+            if (index !== -1) this.profiles[index] = updatedProfile;
+        } else {
+            this.profiles.push(updatedProfile);
+        }
+        this.editingProfileId = null;
+        this.renderProfiles();
+        document.getElementById("profile-form").reset();
+        this.showToast("Profile saved successfully!", "success");
+    }
+}
+
+
+
+    // ================== SKILLS ==================
+renderSkills() {
+    let container = document.getElementById("skills-table-body");
+    container.innerHTML = "";
+    if (this.skills.length === 0) {
+        container.innerHTML = `
+            <tr class="empty-state">
+                <td colspan="5">
+                    <i class="fas fa-chart-bar"></i>
+                    <h5>No skills added yet</h5>
+                    <p>Add your first skill using the form above</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    this.skills.forEach(skill => {
+        container.innerHTML += `
+            <tr>
+                <td>${skill.id}</td>
+                <td>${skill.name}</td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width:${skill.percentage}%;">
+                            ${skill.percentage}%
+                        </div>
+                    </div>
+                </td>
+                <td>${skill.percentage}%</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="manager.editSkill(${skill.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="manager.deleteSkill(${skill.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+editSkill(id) {
+    let skill = this.skills.find(s => s.id === id);
+    if (!skill) return;
+
+    // Isi form dengan data skill yg dipilih
+    document.getElementById("skill-name").value = skill.name;
+    document.getElementById("skill-percentage").value = skill.percentage;
+
+    // Simpan skill yg sedang di-edit
+    this.editingSkill = skill;
+    document.getElementById("skill-submit-btn").textContent = "Update Skill";
+}
+
+    // ================== PORTFOLIO ==================
+    async loadPortfolios() {
+        let res = await fetch(`${this.apiBase}/portfolios/`);
+        if (res.ok) {
+            this.portfolios = await res.json();
+            this.renderPortfolios();
+        }
+    }
+
+    async addPortfolio(data) {
+        let res = await fetch(`${this.apiBase}/portfolios/`, {
+            method: "POST",
+            body: data,
+            headers: { 
+            "X-CSRFToken": this.getCSRFToken()
+        },
+             
+        });
+        if (res.ok) {
+    let newItem = await res.json();
+    this.portfolios.push(newItem);
+    this.renderPortfolios();
+    this.showToast("Portfolio added!", "success");
+}
+
+
+    }
+
+    async updatePortfolio(id, data) {
+        let res = await fetch(`${this.apiBase}/portfolios/${id}/`, {
+            method: "PUT",
+            body: data,
+            headers: { 
+            "X-CSRFToken": this.getCSRFToken()
+        },
+        });
+        if (res.ok) {
+            let updated = await res.json();
+            let index = this.portfolios.findIndex(p => p.id === id);
+            if (index !== -1) this.portfolios[index] = updated;
+            this.renderPortfolios();
+            this.showToast("Portfolio updated!", "success");
+        }  else {
+        let error = await res.json();
+        console.error("Update failed:", error);
+        this.showToast("Update failed!", "danger");
+    }
+}
+
+    async deletePortfolio(id) {
+        if (!confirm("Delete this portfolio?")) return;
+        let res = await fetch(`${this.apiBase}/portfolios/${id}/`,
+         { method: "DELETE",
+             headers: { "X-CSRFToken": this.getCSRFToken() }
+          });
+        if (res.ok) {
+            this.portfolios = this.portfolios.filter(p => p.id !== id);
+            this.renderPortfolios();
+            this.showToast("Portfolio deleted!", "danger");
+        }
+    }
+
+    renderPortfolios() {
+    let container = document.getElementById("portfolio-table-body");
+    container.innerHTML = "";
+    if (this.portfolios.length === 0) {
+        container.innerHTML = `
+            <tr class="empty-state">
+                <td colspan="6">
+                    <i class="fas fa-folder-open"></i>
+                    <h5>No portfolio added yet</h5>
+                    <p>Add your first project using the form above</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    this.portfolios.forEach(portfolio => {
+        container.innerHTML += `
+            <tr>
+                <td>${portfolio.id}</td>
+                <td>${portfolio.title}</td>
+                <td>${portfolio.category}</td>
+                <td>
+                    ${portfolio.image ? `<img src="${portfolio.image}" width="80">` : "No Image"}
+                </td>
+                <td>${portfolio.client || "-"}</td>
+                 <td>${portfolio.project_date || '-'}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="manager.startEdit(${portfolio.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="manager.deletePortfolio(${portfolio.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+async handlePortfolioSubmit(event) {
+    event.preventDefault();
+
+
+let formData = new FormData();
+formData.append("title", document.getElementById("portfolio-title").value);
+formData.append("category", document.getElementById("portfolio-category").value);
+formData.append("client", document.getElementById("portfolio-client").value);
+formData.append("project_date", document.getElementById("portfolio-date").value);
+formData.append("project_url", document.getElementById("portfolio-url").value);
+formData.append("description", document.getElementById("portfolio-description").value);
+
+let fileInput = document.getElementById("portfolio-image");
+if (fileInput.files.length > 0) {
+    formData.append("image", fileInput.files[0]);
+}
+    
+    if (this.editingId) {
+        // Mode Edit
+        await this.updatePortfolio(this.editingId, formData);
+    } else {
+        // Mode Tambah
+        await this.addPortfolio(formData);
+    }
+
+    this.resetForm();
+}
+
+startEdit(id) {
+    let item = this.portfolios.find(p => p.id === id);
+    if (!item) return;
+
+    // Isi form dengan data lama
+    document.getElementById("portfolio-title").value = item.title || "";
+    document.getElementById("portfolio-category").value = item.category || "";
+    document.getElementById("portfolio-client").value = item.client || "";
+    document.getElementById("portfolio-date").value = item.project_date || "";
+    document.getElementById("portfolio-url").value = item.project_url || "";
+    document.getElementById("portfolio-description").value = item.description || "";
+
+    // Simpan id yg sedang diedit
+    this.editingId = item.id;
+
+    // Ubah tombol jadi "Update"
+    document.getElementById("portfolio-submit-btn").innerHTML = `<i class="fas fa-save me-2"></i>Update Portfolio Item`;
+    document.getElementById("portfolio-cancel-btn").style.display = "inline-block";
+}
+
+resetForm() {
+    document.getElementById("portfolio-form").reset();
+    this.editingId = null;
+    document.getElementById("portfolio-submit-btn").innerHTML = `<i class="fas fa-plus me-2"></i>Add Portfolio Item`;
+    document.getElementById("portfolio-cancel-btn").style.display = "none";
+    
+}
+
+
+    // ================== CONTACT MESSAGES ==================
+    async loadMessages() {
+        let res = await fetch(`${this.apiBase}/messages/`);
+        if (res.ok) {
+            this.messages = await res.json();
+            this.renderMessages();
+        }
+    }
+
+    async addMessage(data) {
+        let res = await fetch(`${this.apiBase}/messages/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json",
+                "X-CSRFToken": this.getCSRFToken()
+             },
+            body: JSON.stringify(data)
+        });
+        if (res.ok) {
+            let newMessage = await res.json();
+            this.messages.push(newMessage);
+            this.renderMessages();
+            this.showToast("Message sent!", "success");
+        }
+    }
+
+   renderMessages() {
+    let container = document.getElementById("messages-table-body");
+    container.innerHTML = "";
+    if (this.messages.length === 0) {
+        container.innerHTML = `
+            <tr class="empty-state">
+                <td colspan="6">
+                    <i class="fas fa-envelope"></i>
+                    <h5>No messages yet</h5>
+                    <p>When someone contacts you, the message will appear here</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    this.messages.forEach(msg => {
+        container.innerHTML += `
+            <tr>
+                <td>${msg.id}</td>
+                <td>${msg.name}</td>
+                <td>${msg.email}</td>
+                <td>${msg.subject}</td>
+                <td>${msg.date || "-"}</td> <!-- tambahin date -->
+                <td>
+                    <button class="btn btn-sm btn-info" onclick="alert('${msg.message.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="manager.deleteMessage(${msg.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+    // ================== HELPER ==================
+    jsonOrForm(data) {
+        // helper biar kalau ada image -> FormData, kalau tidak -> JSON
+        if (data instanceof FormData) return data;
+        return JSON.stringify(data);
+    }
+
+    showToast(msg, type) {
+        alert(`[${type}] ${msg}`); // ganti dengan toast UI kalau mau
+    }
+}
+
+// init
+const manager = new PortfolioManager();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".content-section");
+
+    navLinks.forEach(link => {
+        link.addEventListener("click", e => {
+            e.preventDefault();
+
+            // hapus "active" dari semua nav-link
+            navLinks.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+
+            // sembunyikan semua section
+            sections.forEach(section => section.classList.remove("active"));
+
+            // tampilkan section sesuai data-section
+            const sectionId = link.getAttribute("data-section");
+            document.getElementById(sectionId).classList.add("active");
+        });
+    });
+
+    // toggle sidebar (buat versi mobile)
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebar = document.getElementById("sidebar");
+    sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+    });
+});
+
+
+
+    </script>
+</body>
+</html>

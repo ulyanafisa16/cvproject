@@ -1,0 +1,12 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Hapus Organisasi</h2>
+    <p>Apakah Anda yakin ingin menghapus organisasi <strong>{{ org.organization }}</strong> milik <strong>{{ org.profile.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Hapus</button>
+        <a href="{% url 'message_list' %}" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

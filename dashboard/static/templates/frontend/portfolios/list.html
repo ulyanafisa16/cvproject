@@ -1,0 +1,48 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Portfolios</h2>
+    <a href="{% url 'portfolio_create' %}" class="btn btn-success mb-2">+ Tambah Portfolio</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Client</th>
+                <th>Project Date</th>
+                <th>Project URL</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in portfolios %}
+            <tr>
+                <td>{{ p.title }}</td>
+                <td>{{ p.category }}</td>
+                <td>{{ p.client }}</td>
+                <td>{{ p.project_date }}</td>
+                <td>
+                    {% if p.project_url %}
+                        <a href="{{ p.project_url }}" target="_blank">{{ p.project_url|truncatechars:20 }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if p.image %}
+                        <img src="{{ p.image.url }}" width="80">
+                    {% endif %}
+                </td>
+                <td>{{ p.description|truncatewords:10 }}</td>
+                <td>
+                    <a href="{% url 'portfolio_edit' p.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'portfolio_delete' p.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8" class="text-center">Tidak ada portfolio</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

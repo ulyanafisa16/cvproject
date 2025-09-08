@@ -1,0 +1,34 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Daftar Skill</h2>
+    <a href="{% url 'skill_create' %}" class="btn btn-success mb-3">+ Tambah Skill</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nama Skill</th>
+                <th>Persentase</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for skill in skills %}
+            <tr>
+                <td>{{ skill.name }}</td>
+                <td>{{ skill.percentage }}%</td>
+                <td>
+                    <a href="{% url 'skill_edit' skill.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'skill_delete' skill.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">Tidak ada skill</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -33,11 +33,13 @@
 					<li class="sidebar-header">
 						Pages
 					</li>
-
+		{% if user.is_authenticated %}
+    					{% if user.username == 'userdashboard' %}
 					<li class="sidebar-item active">
 						<a class="sidebar-link" href="{% url 'dashboard' %}">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
+						{% else %}
 					</li>
 
 					<li class="sidebar-item">
@@ -71,7 +73,8 @@
 					</a>
 				</li>
 				</ul>
-
+				{% endif %}
+		{% endif %}
 				
 			</div>
 		</nav>
@@ -322,7 +325,7 @@
 			</footer>
 		</div>
 	</div>
-    <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/app.js' %}"></script>
 <script src="https://unpkg.com/feather-icons"></script>
 <script>

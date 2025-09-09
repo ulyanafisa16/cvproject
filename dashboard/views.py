@@ -44,17 +44,32 @@ def logout_view(request):
 @never_cache
 @login_required(login_url='login')
 def dashboard(request):
-    context = {
-        'profile_count': Profile.objects.count(),
-        'skill_count': Skill.objects.count(),
-        'portfolio_count': Portfolio.objects.count(),
-        'message_count': ContactMessage.objects.count(),
-    }
-    return render(request, 'frontend/dashboard.html', context)
-
+    if request.user.username == 'userdashboard':
+        # Dashboard untuk user biasa
+        context = {
+            'profile_count': Profile.objects.count(),
+            'skill_count': Skill.objects.count(),
+            'portfolio_count': Portfolio.objects.count(),
+            'message_count': ContactMessage.objects.count(),
+        }
+        return render(request, 'frontend/dashboard.html', context)
+    elif request.user.is_staff:
+        # Dashboard untuk admin
+        context = {
+            'profile_count': Profile.objects.count(),
+            'skill_count': Skill.objects.count(),
+            'portfolio_count': Portfolio.objects.count(),
+            'message_count': ContactMessage.objects.count(),
+        }
+        return render(request, 'frontend/dashboard.html', context)
+    else:
+        # User lain tidak punya akses
+        return redirect('login')
 # ---------------- PROFILE CRUD ----------------
 @login_required(login_url='login')
 def profile_list(request):
+    if request.user.username == 'userdashboard':
+        return redirect('dashboard') 
     profiles = Profile.objects.all()
     return render(request, 'frontend/profiles/list.html', {'profiles': profiles})
 
@@ -92,6 +107,8 @@ def profile_delete(request, pk):
 # ---------------- SKILL CRUD ----------------
 @login_required(login_url='login')
 def skill_list(request):
+    if request.user.username == 'userdashboard':
+        return redirect('dashboard') 
     skills = Skill.objects.all()
     return render(request, 'frontend/skills/list.html', {'skills': skills})
 
@@ -129,6 +146,8 @@ def skill_delete(request, pk):
 # ---------------- PORTFOLIO CRUD ----------------
 @login_required(login_url='login')
 def portfolio_list(request):
+    if request.user.username == 'userdashboard':
+        return redirect('dashboard') 
     portfolios = Portfolio.objects.all()
     return render(request, 'frontend/portfolios/list.html', {'portfolios': portfolios})
 
@@ -166,6 +185,8 @@ def portfolio_delete(request, pk):
 # ---------------- PORTFOLIO IMAGE CRUD ----------------
 @login_required(login_url='login')
 def portfolio_image_list(request):
+    if request.user.username == 'userdashboard':
+        return redirect('dashboard') 
     images = PortfolioImage.objects.all()
     return render(request, 'frontend/portfolio_images/list.html', {'images': images})
 
@@ -203,6 +224,8 @@ def portfolio_image_delete(request, pk):
 # ---------------- CONTACT MESSAGE ----------------
 @login_required(login_url='login')
 def message_list(request):
+    if request.user.username == 'userdashboard':
+        return redirect('dashboard') 
     messages = ContactMessage.objects.all()
     return render(request, 'frontend/messages/list.html', {'messages': messages})
 
